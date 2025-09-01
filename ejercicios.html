@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios de Matemáticas</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        #login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        #login-form input[type="text"],
+        #login-form input[type="password"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #login-form button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #login-form button:hover {
+            background-color: #0056b3;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+        #exercises-container {
+            display: none;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .theme {
+            margin-bottom: 30px;
+        }
+        .theme h2 {
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 10px;
+            color: #007BFF;
+        }
+        .sub-theme h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .exercise {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .exercise img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Entrar</button>
+            <p id="error-message">Usuario o contraseña incorrectos.</p>
+        </form>
+    </div>
+
+    <div id="exercises-container">
+        <h1 style="text-align: center;">Ejercicios de Matemáticas</h1>
+    </div>
+
+    <script>
+        // Objeto que contiene los datos de los usuarios
+        const users = {
+            'fac': '2501bsci', 'mba': '2501bsci', 'eba': '2501bsci', 'lca': '2501bsci', 'ldo': '2501bsci',
+            'ees': '2502fbci', 'cfl': '2502fbci', 'ffu': '2502fbci', 'fst': '2502fbci', 'mhu': '2502fbci',
+            'mjo': '2503mgci', 'dma': '2503mgci', 'bme': '2503mgci', 'sme': '2503mgci', 'ime': '2503mgci',
+            'dmo': '2504mici', 'jos': '2504mici', 'spa': '2504mici', 'dpe': '2504mici', 'iro': '2504mici',
+            'bro': '2505vlci', 'mro': '2505vlci', 'eru': '2505vlci', 'mtr': '2505vlci', 'iva': '2505vlci',
+            'admin': '25admlci'
+        };
+
+        // Asignación de grupos a contraseñas
+        const groups = {
+            '2501bsci': 1,
+            '2502fbci': 2,
+            '2503mgci': 3,
+            '2504mici': 4,
+            '2505vlci': 5,
+            '25admlci': 'admin'
+        };
+
+        // Objeto con todos los ejercicios, organizados por tema, subtema y grupo
+        const exercises = {
+            'Razones trigonométricas en Triángulo Rectángulo': {
+                'Aplicaciones de las razones trigonométricas': {
+                    1: [
+                        '1. Una escalera de 12 metros está apoyada en una pared. Si forma un ángulo de 60° con el suelo, ¿qué tan alto llega la escalera en la pared?',
+                        '2. Un edificio proyecta una sombra de 35 m de largo. Si el ángulo de elevación desde la punta de la sombra hasta la cima del edificio es de 40°, ¿cuál es la altura del edificio?',
+                        '3. Desde la cima de un acantilado de 80 m, el ángulo de depresión a un barco es de 25°. ¿A qué distancia de la base del acantilado está el barco?',
+                        '4. Un avión se encuentra a una altitud de 5000 m. Si su ángulo de depresión al aeropuerto es de 30°, ¿cuál es la distancia en línea recta desde el avión al aeropuerto?',
+                        '5. Un observador a 100 m de un árbol ve su cima con un ángulo de elevación de 45°. ¿Cuál es la altura del árbol?'
+                    ],
+                    2: [
+                        '1. Un cometa está atascado en un árbol. El hilo de 50 metros forma un ángulo de 20° con el suelo. ¿Cuál es la altura del cometa?',
+                        '2. Un faro de 15 metros de altura emite una luz. Si el ángulo de depresión desde la cima del faro a un bote en el mar es de 35°, ¿a qué distancia horizontal está el bote del faro?',
+                        '3. Un topógrafo mide un ángulo de elevación de 55° a la cima de un poste de luz. Si el topógrafo está a 20 m de la base del poste, ¿cuál es la altura del poste?',
+                        '4. Un paracaidista desciende. El ángulo de depresión desde su posición hasta un punto en el suelo es de 60°. Si se encuentra a una altura de 1200 metros, ¿cuál es la distancia horizontal al punto?',
+                        '5. Un teleférico sube una montaña. Si su cable tiene una longitud de 250 metros y el ángulo de elevación es de 42°, ¿cuánto ha subido verticalmente?'
+                    ],
+                    3: [
+                        '1. Desde la azotea de un edificio de 40 metros de altura, se observa un coche. Si el ángulo de depresión es de 50°, ¿a qué distancia del edificio se encuentra el coche?',
+                        '2. Un avión despega con un ángulo de elevación de 18°. Si vuela 3 km en línea recta, ¿cuál es su altitud?',
+                        '3. Un muro de 6 metros proyecta una sombra. Si el ángulo de elevación del sol es de 38°, ¿cuál es la longitud de la sombra?',
+                        '4. Un poste de teléfono de 10 metros se sostiene con un cable que forma un ángulo de 70° con el suelo. ¿Cuál es la longitud del cable?',
+                        '5. Un pájaro vuela a una altura de 15 metros. Si el ángulo de elevación desde un observador en el suelo es de 28°, ¿a qué distancia horizontal del observador se encuentra el pájaro?'
+                    ],
+                    4: [
+                        '1. Un puente levadizo de 30 metros se eleva a un ángulo de 32°. ¿Cuál es la altura del extremo levantado sobre el nivel del puente?',
+                        '2. Un observador se encuentra a 50 metros de la base de una torre. Si el ángulo de elevación a la cima es de 65°, ¿cuál es la altura de la torre?',
+                        '3. Un cohete se lanza con un ángulo de elevación de 80°. Si recorre 1000 metros, ¿qué distancia horizontal ha cubierto?',
+                        '4. Un árbol de 20 metros proyecta una sombra. Si el ángulo de elevación del sol es de 48°, ¿cuál es la longitud de la sombra?',
+                        '5. Desde la cima de un edificio de 60 metros, un hombre ve a su perro. Si el ángulo de depresión es de 15°, ¿a qué distancia horizontal está el perro del edificio?'
+                    ],
+                    5: [
+                        '1. Un barco se aleja de un muelle. Desde un faro de 25 metros de altura en el muelle, el ángulo de depresión es de 22°. ¿A qué distancia del muelle se encuentra el barco?',
+                        '2. Una rampa de acceso a un edificio mide 15 metros de largo y tiene un ángulo de elevación de 10°. ¿Cuál es la altura de la rampa?',
+                        '3. Un avión se encuentra a una altitud de 2000 metros. El ángulo de elevación desde un punto en tierra a él es de 25°. ¿Cuál es la distancia horizontal a la que se encuentra el avión?',
+                        '4. La cuerda de un cometa tiene una longitud de 75 metros. Si el ángulo de elevación del cometa es de 50°, ¿cuál es su altura sobre el suelo?',
+                        '5. Un poste de 8 metros está roto. Si la parte superior se apoya en el suelo a 3 metros de la base, ¿cuál es el ángulo que forma la parte rota con el suelo?'
+                    ]
+                }
+            },
+            'Ecuaciones Cuadráticas': {
+                'Resolución por factorización': {
+                    1: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+5x+%2B+6+%3D+0" alt="x^2 + 5x + 6 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?x^2+-+3x+-+10+%3D+0" alt="x^2 - 3x - 10 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?2x^2+%2B+7x+%2B+3+%3D+0" alt="2x^2 + 7x + 3 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?4x^2+-+9+%3D+0" alt="4x^2 - 9 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?3x^2+-+12x+%3D+0" alt="3x^2 - 12x = 0">'
+                    ],
+                    2: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+-+8x+%2B+15+%3D+0" alt="x^2 - 8x + 15 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?x^2+%2B+2x+-+8+%3D+0" alt="x^2 + 2x - 8 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?5x^2+-+17x+%2B+6+%3D+0" alt="5x^2 - 17x + 6 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?9x^2+-+16+%3D+0" alt="9x^2 - 16 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?2x^2+%2B+14x+%3D+0" alt="2x^2 + 14x = 0">'
+                    ],
+                    3: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+9x+%2B+20+%3D+0" alt="x^2 + 9x + 20 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?x^2+-+4x+-+21+%3D+0" alt="x^2 - 4x - 21 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?6x^2+-+11x+-+10+%3D+0" alt="6x^2 - 11x - 10 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?25x^2+-+1+%3D+0" alt="25x^2 - 1 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?4x^2+-+20x+%3D+0" alt="4x^2 - 20x = 0">'
+                    ],
+                    4: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+-+x+-+12+%3D+0" alt="x^2 - x - 12 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?x^2+%2B+6x+-+7+%3D+0" alt="x^2 + 6x - 7 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?3x^2+%2B+10x+-+8+%3D+0" alt="3x^2 + 10x - 8 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?x^2+-+49+%3D+0" alt="x^2 - 49 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?7x^2+%2B+21x+%3D+0" alt="7x^2 + 21x = 0">'
+                    ],
+                    5: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+10x+%2B+24+%3D+0" alt="x^2 + 10x + 24 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?x^2+-+5x+-+24+%3D+0" alt="x^2 - 5x - 24 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?8x^2+-+10x+-+3+%3D+0" alt="8x^2 - 10x - 3 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?36x^2+-+25+%3D+0" alt="36x^2 - 25 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?6x^2+-+18x+%3D+0" alt="6x^2 - 18x = 0">'
+                    ]
+                },
+                'por fórmula gral': {
+                    1: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+-+5x+%2B+3+%3D+0" alt="x^2 - 5x + 3 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?2x^2+%2B+3x+-+1+%3D+0" alt="2x^2 + 3x - 1 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?-x^2+%2B+4x+-+2+%3D+0" alt="-x^2 + 4x - 2 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?3x^2+-+7x+-+6+%3D+0" alt="3x^2 - 7x - 6 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?x^2+%2B+2x+%2B+5+%3D+0" alt="x^2 + 2x + 5 = 0">'
+                    ],
+                    2: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+4x+%2B+1+%3D+0" alt="x^2 + 4x + 1 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?3x^2+-+2x+-+5+%3D+0" alt="3x^2 - 2x - 5 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?-2x^2+-+x+%2B+3+%3D+0" alt="-2x^2 - x + 3 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?4x^2+%2B+12x+%2B+9+%3D+0" alt="4x^2 + 12x + 9 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?x^2+-+3x+%2B+4+%3D+0" alt="x^2 - 3x + 4 = 0">'
+                    ],
+                    3: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+6x+-+2+%3D+0" alt="x^2 + 6x - 2 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?2x^2+-+7x+%2B+4+%3D+0" alt="2x^2 - 7x + 4 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?-x^2+%2B+5x+%2B+1+%3D+0" alt="-x^2 + 5x + 1 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?5x^2+-+8x+%2B+3+%3D+0" alt="5x^2 - 8x + 3 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?x^2+%2B+4+%3D+0" alt="x^2 + 4 = 0">'
+                    ],
+                    4: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+-+2x+-+4+%3D+0" alt="x^2 - 2x - 4 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?4x^2+%2B+x+-+3+%3D+0" alt="4x^2 + x - 3 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?-3x^2+%2B+2x+%2B+5+%3D+0" alt="-3x^2 + 2x + 5 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?x^2+%2B+8x+%2B+16+%3D+0" alt="x^2 + 8x + 16 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?2x^2+%2B+x+%2B+3+%3D+0" alt="2x^2 + x + 3 = 0">'
+                    ],
+                    5: [
+                        '1. <img src="https://latex.codecogs.com/png.image?x^2+%2B+3x+-+5+%3D+0" alt="x^2 + 3x - 5 = 0">',
+                        '2. <img src="https://latex.codecogs.com/png.image?5x^2+-+4x+-+1+%3D+0" alt="5x^2 - 4x - 1 = 0">',
+                        '3. <img src="https://latex.codecogs.com/png.image?-x^2+-+6x+-+7+%3D+0" alt="-x^2 - 6x - 7 = 0">',
+                        '4. <img src="https://latex.codecogs.com/png.image?9x^2+-+6x+%2B+1+%3D+0" alt="9x^2 - 6x + 1 = 0">',
+                        '5. <img src="https://latex.codecogs.com/png.image?x^2+-+2x+%2B+2+%3D+0" alt="x^2 - 2x + 2 = 0">'
+                    ]
+                }
+            },
+            'Función Cuadrática': {
+                'Análisis de la función cuadrática': {
+                    1: [
+                        '1. Dada la función <img src="https://latex.codecogs.com/png.image?f(x)=x^2-6x+8" alt="f(x)=x^2-6x+8">, encuentra su vértice, eje de simetría y las raíces.',
+                        '2. Analiza la función <img src="https://latex.codecogs.com/png.image?f(x)=-2x^2+4x+5" alt="f(x)=-2x^2+4x+5">. Determina el sentido de la parábola, las coordenadas del vértice y el punto de corte con el eje y.',
+                        '3. Para la función <img src="https://latex.codecogs.com/png.image?y=3x^2-12x+9" alt="y=3x^2-12x+9">, calcula el vértice y los puntos de corte con el eje x.',
+                        '4. Halla el vértice de la parábola <img src="https://latex.codecogs.com/png.image?f(x)=x^2-4x+4" alt="f(x)=x^2-4x+4"> y determina si tiene uno o dos puntos de corte con el eje x.',
+                        '5. ¿Cuál es el valor máximo o mínimo de la función <img src="https://latex.codecogs.com/png.image?f(x)=-x^2+10x-21" alt="f(x)=-x^2+10x-21">? Justifica tu respuesta.'
+                    ],
+                    2: [
+                        '1. Para la función <img src="https://latex.codecogs.com/png.image?f(x)=2x^2+8x-10" alt="f(x)=2x^2+8x-10">, encuentra su vértice, eje de simetría y las raíces.',
+                        '2. Analiza la función <img src="https://latex.codecogs.com/png.image?f(x)=-x^2-6x-5" alt="f(x)=-x^2-6x-5">. Determina el sentido de la parábola, las coordenadas del vértice y el punto de corte con el eje y.',
+                        '3. Dada la función <img src="https://latex.codecogs.com/png.image?y=4x^2-8x+3" alt="y=4x^2-8x+3">, calcula el vértice y los puntos de corte con el eje x.',
+                        '4. Halla el vértice de la parábola <img src="https://latex.codecogs.com/png.image?f(x)=x^2+2x+1" alt="f(x)=x^2+2x+1"> y determina si tiene uno o dos puntos de corte con el eje x.',
+                        '5. ¿Cuál es el valor máximo o mínimo de la función <img src="https://latex.codecogs.com/png.image?f(x)=-3x^2+6x+2" alt="f(x)=-3x^2+6x+2">? Justifica tu respuesta.'
+                    ],
+                    3: [
+                        '1. Dada la función <img src="https://latex.codecogs.com/png.image?f(x)=x^2+4x-5" alt="f(x)=x^2+4x-5">, encuentra su vértice, eje de simetría y las raíces.',
+                        '2. Analiza la función <img src="https://latex.codecogs.com/png.image?f(x)=-2x^2-12x+1" alt="f(x)=-2x^2-12x+1">. Determina el sentido de la parábola, las coordenadas del vértice y el punto de corte con el eje y.',
+                        '3. Para la función <img src="https://latex.codecogs.com/png.image?y=5x^2+10x+5" alt="y=5x^2+10x+5">, calcula el vértice y los puntos de corte con el eje x.',
+                        '4. Halla el vértice de la parábola <img src="https://latex.codecogs.com/png.image?f(x)=x^2-10x+25" alt="f(x)=x^2-10x+25"> y determina si tiene uno o dos puntos de corte con el eje x.',
+                        '5. ¿Cuál es el valor máximo o mínimo de la función <img src="https://latex.codecogs.com/png.image?f(x)=-x^2-4x+3" alt="f(x)=-x^2-4x+3">? Justifica tu respuesta.'
+                    ],
+                    4: [
+                        '1. Dada la función <img src="https://latex.codecogs.com/png.image?f(x)=x^2-2x-3" alt="f(x)=x^2-2x-3">, encuentra su vértice, eje de simetría y las raíces.',
+                        '2. Analiza la función <img src="https://latex.codecogs.com/png.image?f(x)=-x^2+8x-12" alt="f(x)=-x^2+8x-12">. Determina el sentido de la parábola, las coordenadas del vértice y el punto de corte con el eje y.',
+                        '3. Para la función <img src="https://latex.codecogs.com/png.image?y=2x^2+4x+2" alt="y=2x^2+4x+2">, calcula el vértice y los puntos de corte con el eje x.',
+                        '4. Halla el vértice de la parábola <img src="https://latex.codecogs.com/png.image?f(x)=x^2+6x+9" alt="f(x)=x^2+6x+9"> y determina si tiene uno o dos puntos de corte con el eje x.',
+                        '5. ¿Cuál es el valor máximo o mínimo de la función <img src="https://latex.codecogs.com/png.image?f(x)=-2x^2-8x+1" alt="f(x)=-2x^2-8x+1">? Justifica tu respuesta.'
+                    ],
+                    5: [
+                        '1. Dada la función <img src="https://latex.codecogs.com/png.image?f(x)=x^2+6x+5" alt="f(x)=x^2+6x+5">, encuentra su vértice, eje de simetría y las raíces.',
+                        '2. Analiza la función <img src="https://latex.codecogs.com/png.image?f(x)=-3x^2+18x-15" alt="f(x)=-3x^2+18x-15">. Determina el sentido de la parábola, las coordenadas del vértice y el punto de corte con el eje y.',
+                        '3. Para la función <img src="https://latex.codecogs.com/png.image?y=3x^2-6x-9" alt="y=3x^2-6x-9">, calcula el vértice y los puntos de corte con el eje x.',
+                        '4. Halla el vértice de la parábola <img src="https://latex.codecogs.com/png.image?f(x)=x^2-8x+16" alt="f(x)=x^2-8x+16"> y determina si tiene uno o dos puntos de corte con el eje x.',
+                        '5. ¿Cuál es el valor máximo o mínimo de la función <img src="https://latex.codecogs.com/png.image?f(x)=-x^2+2x+4" alt="f(x)=-x^2+2x+4">? Justifica tu respuesta.'
+                    ]
+                },
+                'Desplazamientos de la función cuadrática': {
+                    1: [
+                        '1. Describe la transformación de <img src="https://latex.codecogs.com/png.image?y=(x-3)^2+1" alt="y=(x-3)^2+1"> con respecto a <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">.',
+                        '2. Escribe la ecuación de la parábola <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2"> desplazada 2 unidades a la izquierda y 5 unidades hacia abajo.',
+                        '3. ¿Cuál es la ecuación de una parábola con vértice en <img src="https://latex.codecogs.com/png.image?(-4, 2)" alt="(-4, 2)"> que se abre hacia arriba?',
+                        '4. Describe el desplazamiento vertical de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2+7" alt="y=x^2+7">.',
+                        '5. La función <img src="https://latex.codecogs.com/png.image?f(x)=(x+1)^2" alt="f(x)=(x+1)^2"> representa una traslación de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">. ¿Hacia dónde se mueve y cuántas unidades?'
+                    ],
+                    2: [
+                        '1. Describe la transformación de <img src="https://latex.codecogs.com/png.image?y=(x+2)^2-4" alt="y=(x+2)^2-4"> con respecto a <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">.',
+                        '2. Escribe la ecuación de la parábola <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2"> desplazada 4 unidades a la derecha y 3 unidades hacia arriba.',
+                        '3. ¿Cuál es la ecuación de una parábola con vértice en <img src="https://latex.codecogs.com/png.image?(5, -1)" alt="(5, -1)"> que se abre hacia arriba?',
+                        '4. Describe el desplazamiento vertical de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2-3" alt="y=x^2-3">.',
+                        '5. La función <img src="https://latex.codecogs.com/png.image?f(x)=(x-5)^2" alt="f(x)=(x-5)^2"> representa una traslación de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">. ¿Hacia dónde se mueve y cuántas unidades?'
+                    ],
+                    3: [
+                        '1. Describe la transformación de <img src="https://latex.codecogs.com/png.image?y=(x-1)^2-2" alt="y=(x-1)^2-2"> con respecto a <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">.',
+                        '2. Escribe la ecuación de la parábola <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2"> desplazada 6 unidades a la izquierda y 2 unidades hacia arriba.',
+                        '3. ¿Cuál es la ecuación de una parábola con vértice en <img src="https://latex.codecogs.com/png.image?(-3, 5)" alt="(-3, 5)"> que se abre hacia arriba?',
+                        '4. Describe el desplazamiento vertical de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2+4" alt="y=x^2+4">.',
+                        '5. La función <img src="https://latex.codecogs.com/png.image?f(x)=(x+3)^2" alt="f(x)=(x+3)^2"> representa una traslación de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">. ¿Hacia dónde se mueve y cuántas unidades?'
+                    ],
+                    4: [
+                        '1. Describe la transformación de <img src="https://latex.codecogs.com/png.image?y=(x+4)^2+3" alt="y=(x+4)^2+3"> con respecto a <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">.',
+                        '2. Escribe la ecuación de la parábola <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2"> desplazada 1 unidad a la derecha y 6 unidades hacia abajo.',
+                        '3. ¿Cuál es la ecuación de una parábola con vértice en <img src="https://latex.codecogs.com/png.image?(2, -5)" alt="(2, -5)"> que se abre hacia arriba?',
+                        '4. Describe el desplazamiento vertical de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2-8" alt="y=x^2-8">.',
+                        '5. La función <img src="https://latex.codecogs.com/png.image?f(x)=(x-2)^2" alt="f(x)=(x-2)^2"> representa una traslación de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">. ¿Hacia dónde se mueve y cuántas unidades?'
+                    ],
+                    5: [
+                        '1. Describe la transformación de <img src="https://latex.codecogs.com/png.image?y=(x+5)^2+2" alt="y=(x+5)^2+2"> con respecto a <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">.',
+                        '2. Escribe la ecuación de la parábola <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2"> desplazada 3 unidades a la izquierda y 4 unidades hacia abajo.',
+                        '3. ¿Cuál es la ecuación de una parábola con vértice en <img src="https://latex.codecogs.com/png.image?(1, -3)" alt="(1, -3)"> que se abre hacia arriba?',
+                        '4. Describe el desplazamiento vertical de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2+9" alt="y=x^2+9">.',
+                        '5. La función <img src="https://latex.codecogs.com/png.image?f(x)=(x-4)^2" alt="f(x)=(x-4)^2"> representa una traslación de la gráfica de <img src="https://latex.codecogs.com/png.image?y=x^2" alt="y=x^2">. ¿Hacia dónde se mueve y cuántas unidades?'
+                    ]
+                }
+            },
+            'Raíces, logaritmos y potencias': {
+                'Operaciones con raíces': {
+                    1: [
+                        '1. Simplifica <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B48%7D" alt="sqrt(48)">.',
+                        '2. Realiza la suma: <img src="https://latex.codecogs.com/png.image?2%5Csqrt%7B3%7D%20%2B%205%5Csqrt%7B3%7D" alt="2*sqrt(3) + 5*sqrt(3)">.',
+                        '3. Multiplica y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B2%7D%20%5Ccdot%20%5Csqrt%7B18%7D" alt="sqrt(2) * sqrt(18)">.',
+                        '4. Resta y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B75%7D%20-%20%5Csqrt%7B27%7D" alt="sqrt(75) - sqrt(27)">.',
+                        '5. Divide y simplifica: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B45%7D%7D%7B%5Csqrt%7B5%7D%7D" alt="sqrt(45) / sqrt(5)">'
+                    ],
+                    2: [
+                        '1. Simplifica <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B72%7D" alt="sqrt(72)">.',
+                        '2. Realiza la suma: <img src="https://latex.codecogs.com/png.image?4%5Csqrt%7B5%7D%20%2B%202%5Csqrt%7B5%7D" alt="4*sqrt(5) + 2*sqrt(5)">.',
+                        '3. Multiplica y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B3%7D%20%5Ccdot%20%5Csqrt%7B12%7D" alt="sqrt(3) * sqrt(12)">.',
+                        '4. Resta y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B50%7D%20-%20%5Csqrt%7B8%7D" alt="sqrt(50) - sqrt(8)">.',
+                        '5. Divide y simplifica: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B98%7D%7D%7B%5Csqrt%7B2%7D%7D" alt="sqrt(98) / sqrt(2)">'
+                    ],
+                    3: [
+                        '1. Simplifica <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B20%7D" alt="sqrt(20)">.',
+                        '2. Realiza la suma: <img src="https://latex.codecogs.com/png.image?7%5Csqrt%7B2%7D%20%2B%203%5Csqrt%7B2%7D" alt="7*sqrt(2) + 3*sqrt(2)">.',
+                        '3. Multiplica y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B5%7D%20%5Ccdot%20%5Csqrt%7B20%7D" alt="sqrt(5) * sqrt(20)">.',
+                        '4. Resta y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B125%7D%20-%20%5Csqrt%7B20%7D" alt="sqrt(125) - sqrt(20)">.',
+                        '5. Divide y simplifica: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B128%7D%7D%7B%5Csqrt%7B2%7D%7D" alt="sqrt(128) / sqrt(2)">'
+                    ],
+                    4: [
+                        '1. Simplifica <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B150%7D" alt="sqrt(150)">.',
+                        '2. Realiza la suma: <img src="https://latex.codecogs.com/png.image?6%5Csqrt%7B7%7D%20%2B%20%5Csqrt%7B7%7D" alt="6*sqrt(7) + sqrt(7)">.',
+                        '3. Multiplica y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B6%7D%20%5Ccdot%20%5Csqrt%7B24%7D" alt="sqrt(6) * sqrt(24)">.',
+                        '4. Resta y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B48%7D%20-%20%5Csqrt%7B12%7D" alt="sqrt(48) - sqrt(12)">.',
+                        '5. Divide y simplifica: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B27%7D%7D%7B%5Csqrt%7B3%7D%7D" alt="sqrt(27) / sqrt(3)">'
+                    ],
+                    5: [
+                        '1. Simplifica <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B96%7D" alt="sqrt(96)">.',
+                        '2. Realiza la suma: <img src="https://latex.codecogs.com/png.image?8%5Csqrt%7B10%7D%20%2B%204%5Csqrt%7B10%7D" alt="8*sqrt(10) + 4*sqrt(10)">.',
+                        '3. Multiplica y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B7%7D%20%5Ccdot%20%5Csqrt%7B28%7D" alt="sqrt(7) * sqrt(28)">.',
+                        '4. Resta y simplifica: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B80%7D%20-%20%5Csqrt%7B45%7D" alt="sqrt(80) - sqrt(45)">.',
+                        '5. Divide y simplifica: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B200%7D%7D%7B%5Csqrt%7B8%7D%7D" alt="sqrt(200) / sqrt(8)">'
+                    ]
+                },
+                'Propiedades de raíces y su aplicación': {
+                    1: [
+                        '1. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B2%7D%20%5Ccdot%20%5Csqrt%7B8%7D%20+%20%5Csqrt%7B50%7D" alt="sqrt(2) * sqrt(8) + sqrt(50)">.',
+                        '2. Aplica las propiedades para simplificar: <img src="https://latex.codecogs.com/png.image?%5Csqrt[3]%7B54%7D" alt="cbrt(54)">.',
+                        '3. Resuelve: <img src="https://latex.codecogs.com/png.image?(3%5Csqrt%7B2%7D)^2" alt="(3*sqrt(2))^2">.',
+                        '4. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B72%7D%7D%7B%5Csqrt%7B2%7D%7D" alt="sqrt(72)/sqrt(2)">.',
+                        '5. ¿Cuál es el valor de <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B16+9%7D" alt="sqrt(16+9)">? ¿Es lo mismo que <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B16%7D%20+%20%5Csqrt%7B9%7D" alt="sqrt(16) + sqrt(9)">?'
+                    ],
+                    2: [
+                        '1. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B3%7D%20%5Ccdot%20%5Csqrt%7B27%7D%20-%20%5Csqrt%7B75%7D" alt="sqrt(3) * sqrt(27) - sqrt(75)">.',
+                        '2. Aplica las propiedades para simplificar: <img src="https://latex.codecogs.com/png.image?%5Csqrt[4]%7B32%7D" alt="4th-root(32)">.',
+                        '3. Resuelve: <img src="https://latex.codecogs.com/png.image?(2%5Csqrt%7B5%7D)^2" alt="(2*sqrt(5))^2">.',
+                        '4. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B125%7D%7D%7B%5Csqrt%7B5%7D%7D" alt="sqrt(125)/sqrt(5)">.',
+                        '5. ¿Cuál es el valor de <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B36-16%7D" alt="sqrt(36-16)">? ¿Es lo mismo que <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B36%7D%20-%20%5Csqrt%7B16%7D" alt="sqrt(36)-sqrt(16)">?'
+                    ],
+                    3: [
+                        '1. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B5%7D%20%5Ccdot%20%5Csqrt%7B45%7D%20+%20%5Csqrt%7B20%7D" alt="sqrt(5) * sqrt(45) + sqrt(20)">.',
+                        '2. Aplica las propiedades para simplificar: <img src="https://latex.codecogs.com/png.image?%5Csqrt[3]%7B108%7D" alt="cbrt(108)">.',
+                        '3. Resuelve: <img src="https://latex.codecogs.com/png.image?(4%5Csqrt%7B3%7D)^2" alt="(4*sqrt(3))^2">.',
+                        '4. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B200%7D%7D%7B%5Csqrt%7B2%7D%7D" alt="sqrt(200)/sqrt(2)">.',
+                        '5. ¿Cuál es el valor de <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B25+144%7D" alt="sqrt(25+144)">? ¿Es lo mismo que <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B25%7D%20+%20%5Csqrt%7B144%7D" alt="sqrt(25)+sqrt(144)">?'
+                    ],
+                    4: [
+                        '1. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B6%7D%20%5Ccdot%20%5Csqrt%7B24%7D%20-%20%5Csqrt%7B96%7D" alt="sqrt(6) * sqrt(24) - sqrt(96)">.',
+                        '2. Aplica las propiedades para simplificar: <img src="https://latex.codecogs.com/png.image?%5Csqrt[4]%7B162%7D" alt="4th-root(162)">.',
+                        '3. Resuelve: <img src="https://latex.codecogs.com/png.image?(5%5Csqrt%7B2%7D)^2" alt="(5*sqrt(2))^2">.',
+                        '4. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B243%7D%7D%7B%5Csqrt%7B3%7D%7D" alt="sqrt(243)/sqrt(3)">.',
+                        '5. ¿Cuál es el valor de <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B100-36%7D" alt="sqrt(100-36)">? ¿Es lo mismo que <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B100%7D%20-%20%5Csqrt%7B36%7D" alt="sqrt(100)-sqrt(36)">?'
+                    ],
+                    5: [
+                        '1. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B7%7D%20%5Ccdot%20%5Csqrt%7B28%7D%20+%20%5Csqrt%7B63%7D" alt="sqrt(7) * sqrt(28) + sqrt(63)">.',
+                        '2. Aplica las propiedades para simplificar: <img src="https://latex.codecogs.com/png.image?%5Csqrt[3]%7B40%7D" alt="cbrt(40)">.',
+                        '3. Resuelve: <img src="https://latex.codecogs.com/png.image?(6%5Csqrt%7B4%7D)^2" alt="(6*sqrt(4))^2">.',
+                        '4. Simplifica la expresión: <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B162%7D%7D%7B%5Csqrt%7B2%7D%7D" alt="sqrt(162)/sqrt(2)">.',
+                        '5. ¿Cuál es el valor de <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B81+19%7D" alt="sqrt(81+19)">? ¿Es lo mismo que <img src="https://latex.codecogs.com/png.image?%5Csqrt%7B81%7D%20+%20%5Csqrt%7B19%7D" alt="sqrt(81)+sqrt(19)">?'
+                    ]
+                },
+                'Racionalizar': {
+                    1: [
+                        '1. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B1%7D%7B%5Csqrt%7B5%7D%7D" alt="1/sqrt(5)">.',
+                        '2. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B2%7D%7B%5Csqrt%7B3%7D%7D" alt="2/sqrt(3)">.',
+                        '3. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B4%7D%7B2%2B%5Csqrt%7B2%7D%7D" alt="4/(2+sqrt(2))">.',
+                        '4. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B3%7D%7B%5Csqrt%7B7%7D-1%7D" alt="3/(sqrt(7)-1)">.',
+                        '5. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B2%7D%7D%7B%5Csqrt%7B2%7D+%5Csqrt%7B3%7D%7D" alt="sqrt(2)/(sqrt(2)+sqrt(3))">'
+                    ],
+                    2: [
+                        '1. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B1%7D%7B%5Csqrt%7B7%7D%7D" alt="1/sqrt(7)">.',
+                        '2. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B5%7D%7B%5Csqrt%7B10%7D%7D" alt="5/sqrt(10)">.',
+                        '3. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B6%7D%7B3-%5Csqrt%7B3%7D%7D" alt="6/(3-sqrt(3))">.',
+                        '4. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B2%7D%7B%5Csqrt%7B5%7D+1%7D" alt="2/(sqrt(5)+1)">.',
+                        '5. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B3%7D%7D%7B%5Csqrt%7B5%7D-%5Csqrt%7B3%7D%7D" alt="sqrt(3)/(sqrt(5)-sqrt(3))">'
+                    ],
+                    3: [
+                        '1. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B3%7D%7B%5Csqrt%7B6%7D%7D" alt="3/sqrt(6)">.',
+                        '2. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B10%7D%7B%5Csqrt%7B5%7D%7D" alt="10/sqrt(5)">.',
+                        '3. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B1%7D%7B4%2B%5Csqrt%7B3%7D%7D" alt="1/(4+sqrt(3))">.',
+                        '4. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B5%7D%7B%5Csqrt%7B11%7D+2%7D" alt="5/(sqrt(11)+2)">.',
+                        '5. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B5%7D%7D%7B%5Csqrt%7B7%7D+%5Csqrt%7B5%7D%7D" alt="sqrt(5)/(sqrt(7)+sqrt(5))">'
+                    ],
+                    4: [
+                        '1. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B2%7D%7B%5Csqrt%7B11%7D%7D" alt="2/sqrt(11)">.',
+                        '2. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B8%7D%7B%5Csqrt%7B2%7D%7D" alt="8/sqrt(2)">.',
+                        '3. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B7%7D%7B1-%5Csqrt%7B5%7D%7D" alt="7/(1-sqrt(5))">.',
+                        '4. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B4%7D%7B%5Csqrt%7B6%7D-2%7D" alt="4/(sqrt(6)-2)">.',
+                        '5. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B7%7D%7D%7B%5Csqrt%7B7%7D-%5Csqrt%7B2%7D%7D" alt="sqrt(7)/(sqrt(7)-sqrt(2))">'
+                    ],
+                    5: [
+                        '1. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B4%7D%7B%5Csqrt%7B8%7D%7D" alt="4/sqrt(8)">.',
+                        '2. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B9%7D%7B%5Csqrt%7B3%7D%7D" alt="9/sqrt(3)">.',
+                        '3. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B2%7D%7B3%2B%5Csqrt%7B7%7D%7D" alt="2/(3+sqrt(7))">.',
+                        '4. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B6%7D%7B%5Csqrt%7B13%7D+3%7D" alt="6/(sqrt(13)+3)">.',
+                        '5. Racionaliza el denominador de <img src="https://latex.codecogs.com/png.image?%5Cfrac%7B%5Csqrt%7B10%7D%7D%7B%5Csqrt%7B10%7D+%5Csqrt%7B5%7D%7D" alt="sqrt(10)/(sqrt(10)+sqrt(5))">'
+                    ]
+                },
+                'Propiedades de logaritmos y aplicación': {
+                    1: [
+                        '1. Aplica la propiedad del producto: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(8%20%5Ccdot%204)" alt="log_2(8 * 4)">.',
+                        '2. Aplica la propiedad del cociente: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B3%7D(%5Cfrac%7B81%7D%7B9%7D)" alt="log_3(81/9)">.',
+                        '3. Aplica la propiedad de la potencia: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B5%7D(25%5E3)" alt="log_5(25^3)">.',
+                        '4. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B10%7D(5)%20+%20%5Clog_%7B10%7D(2)" alt="log_10(5) + log_10(2)">.',
+                        '5. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B4%7D(64)%20-%20%5Clog_%7B4%7D(4)" alt="log_4(64) - log_4(4)">.'
+                    ],
+                    2: [
+                        '1. Aplica la propiedad del producto: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B3%7D(9%20%5Ccdot%203)" alt="log_3(9 * 3)">.',
+                        '2. Aplica la propiedad del cociente: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(%5Cfrac%7B32%7D%7B4%7D)" alt="log_2(32/4)">.',
+                        '3. Aplica la propiedad de la potencia: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B4%7D(16%5E2)" alt="log_4(16^2)">.',
+                        '4. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B10%7D(20)%20+%20%5Clog_%7B10%7D(5)" alt="log_10(20) + log_10(5)">.',
+                        '5. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B5%7D(125)%20-%20%5Clog_%7B5%7D(5)" alt="log_5(125) - log_5(5)">.'
+                    ],
+                    3: [
+                        '1. Aplica la propiedad del producto: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B4%7D(2%20%5Ccdot%208)" alt="log_4(2 * 8)">.',
+                        '2. Aplica la propiedad del cociente: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B5%7D(%5Cfrac%7B125%7D%7B5%7D)" alt="log_5(125/5)">.',
+                        '3. Aplica la propiedad de la potencia: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(8%5E4)" alt="log_2(8^4)">.',
+                        '4. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(4)%20+%20%5Clog_%7B2%7D(8)" alt="log_2(4) + log_2(8)">.',
+                        '5. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B3%7D(27)%20-%20%5Clog_%7B3%7D(3)" alt="log_3(27) - log_3(3)">.'
+                    ],
+                    4: [
+                        '1. Aplica la propiedad del producto: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B10%7D(100%20%5Ccdot%2010)" alt="log_10(100 * 10)">.',
+                        '2. Aplica la propiedad del cociente: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(%5Cfrac%7B64%7D%7B16%7D)" alt="log_2(64/16)">.',
+                        '3. Aplica la propiedad de la potencia: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B3%7D(9%5E5)" alt="log_3(9^5)">.',
+                        '4. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B5%7D(50)%20+%20%5Clog_%7B5%7D(2)" alt="log_5(50) + log_5(2)">.',
+                        '5. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B10%7D(1000)%20-%20%5Clog_%7B10%7D(100)" alt="log_10(1000) - log_10(100)">.'
+                    ],
+                    5: [
+                        '1. Aplica la propiedad del producto: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B5%7D(5%20%5Ccdot%2025)" alt="log_5(5 * 25)">.',
+                        '2. Aplica la propiedad del cociente: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B4%7D(%5Cfrac%7B256%7D%7B16%7D)" alt="log_4(256/16)">.',
+                        '3. Aplica la propiedad de la potencia: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B10%7D(1000%5E2)" alt="log_10(1000^2)">.',
+                        '4. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B4%7D(8)%20+%20%5Clog_%7B4%7D(2)" alt="log_4(8) + log_4(2)">.',
+                        '5. Expresa en un solo logaritmo: <img src="https://latex.codecogs.com/png.image?%5Clog_%7B2%7D(16)%20-%20%5Clog_%7B2%7D(2)" alt="log_2(16) - log_2(2)">.'
+                    ]
+                },
+                'Ecuaciones exponenciales': {
+                    1: [
+                        '1. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?2%5E%7Bx%7D%20%3D%2016" alt="2^x = 16">.',
+                        '2. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?3%5E%7Bx+1%7D%20%3D%2027" alt="3^(x+1) = 27">.',
+                        '3. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?4%5E%7B2x-1%7D%20%3D%2064" alt="4^(2x-1) = 64">.',
+                        '4. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?5%5E%7Bx%7D%20%5Ccdot%205%5E%7B2%7D%20%3D%20125" alt="5^x * 5^2 = 125">.',
+                        '5. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?(%5Cfrac%7B1%7D%7B2%7D)%5E%7Bx%7D%20%3D%208" alt="(1/2)^x = 8">'
+                    ],
+                    2: [
+                        '1. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?5%5E%7Bx%7D%20%3D%20125" alt="5^x = 125">.',
+                        '2. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?4%5E%7Bx-2%7D%20%3D%2016" alt="4^(x-2) = 16">.',
+                        '3. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?9%5E%7Bx%7D%20%3D%203%5E%7Bx+1%7D" alt="9^x = 3^(x+1)">.',
+                        '4. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?2%5E%7Bx%7D%20%5Ccdot%202%5E%7B3%7D%20%3D%2064" alt="2^x * 2^3 = 64">.',
+                        '5. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?(%5Cfrac%7B1%7D%7B3%7D)%5E%7Bx%7D%20%3D%209" alt="(1/3)^x = 9">'
+                    ],
+                    3: [
+                        '1. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?3%5E%7Bx%7D%20%3D%2081" alt="3^x = 81">.',
+                        '2. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?2%5E%7Bx+3%7D%20%3D%2032" alt="2^(x+3) = 32">.',
+                        '3. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?8%5E%7Bx%7D%20%3D%202%5E%7Bx+4%7D" alt="8^x = 2^(x+4)">.',
+                        '4. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?7%5E%7Bx%7D%20%5Ccdot%207%5E%7B-1%7D%20%3D%2049" alt="7^x * 7^(-1) = 49">.',
+                        '5. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?(%5Cfrac%7B1%7D%7B4%7D)%5E%7Bx%7D%20%3D%2016" alt="(1/4)^x = 16">'
+                    ],
+                    4: [
+                        '1. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?6%5E%7Bx%7D%20%3D%20216" alt="6^x = 216">.',
+                        '2. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?5%5E%7Bx-1%7D%20%3D%2025" alt="5^(x-1) = 25">.',
+                        '3. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?25%5E%7Bx%7D%20%3D%205%5E%7B2x+1%7D" alt="25^x = 5^(2x+1)">.',
+                        '4. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?3%5E%7Bx%7D%20%5Ccdot%203%5E%7B2%7D%20%3D%20243" alt="3^x * 3^2 = 243">.',
+                        '5. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?(%5Cfrac%7B1%7D%7B5%7D)%5E%7Bx%7D%20%3D%2025" alt="(1/5)^x = 25">'
+                    ],
+                    5: [
+                        '1. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?4%5E%7Bx%7D%20%3D%20256" alt="4^x = 256">.',
+                        '2. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?10%5E%7Bx+2%7D%20%3D%201000" alt="10^(x+2) = 1000">.',
+                        '3. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?16%5E%7Bx%7D%20%3D%204%5E%7Bx+2%7D" alt="16^x = 4^(x+2)">.',
+                        '4. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?2%5E%7Bx%7D%20%5Ccdot%202%5E%7B-4%7D%20%3D%201" alt="2^x * 2^(-4) = 1">.',
+                        '5. Resuelve la ecuación: <img src="https://latex.codecogs.com/png.image?(%5Cfrac%7B1%7D%7B10%7D)%5E%7Bx%7D%20%3D%201000" alt="(1/10)^x = 1000">'
+                    ]
+                },
+                'Problemas de logaritmos': {
+                    1: [
+                        '1. El pH de una sustancia se calcula con la fórmula <img src="https://latex.codecogs.com/png.image?pH%20%3D%20-%5Clog[H%5E%2B]" alt="pH = -log[H+]">. Si la concentración de iones de hidrógeno <img src="https://latex.codecogs.com/png.image?[H%5E%2B]" alt="[H+]"> de un jugo de limón es <img src="https://latex.codecogs.com/png.image?10%5E%7B-2%7D" alt="10^(-2)">, ¿cuál es su pH?',
+                        '2. El nivel de intensidad de un sonido se mide en decibelios (dB) con la fórmula <img src="https://latex.codecogs.com/png.image?dB%20%3D%2010%20%5Clog(%5Cfrac%7BI%7D%7BI_0%7D)" alt="dB = 10 log(I/I_0)">. ¿Cuántos dB corresponden a una intensidad <img src="https://latex.codecogs.com/png.image?I" alt="I"> de 100 veces la intensidad de referencia <img src="https://latex.codecogs.com/png.image?I_0" alt="I_0">?',
+                        '3. Una población de bacterias se duplica cada hora. Si la población inicial es de 100 bacterias, ¿cuánto tiempo tardará en alcanzar las 800 bacterias? Usa logaritmos para resolverlo.',
+                        '4. Un terremoto tiene una magnitud de 6 en la escala de Richter. Si un segundo terremoto es 100 veces más intenso, ¿cuál es la magnitud del segundo terremoto? (La escala de Richter es logarítmica, <img src="https://latex.codecogs.com/png.image?M%20%3D%20%5Clog(%5Cfrac%7BA%7D%7BA_0%7D)" alt="M = log(A/A_0)">).',
+                        '5. Un capital de $500 se invierte a una tasa de interés anual del 5% compuesto anualmente. ¿En cuántos años el capital alcanzará los $1000? Usa logaritmos.'
+                    ],
+                    2: [
+                        '1. El pH de una sustancia es 4. ¿Cuál es su concentración de iones de hidrógeno <img src="https://latex.codecogs.com/png.image?[H%5E%2B]" alt="[H+]">?',
+                        '2. El nivel de intensidad de un sonido es de 50 dB. ¿Cuántas veces es mayor su intensidad <img src="https://latex.codecogs.com/png.image?I" alt="I"> que la intensidad de referencia <img src="https://latex.codecogs.com/png.image?I_0" alt="I_0">?',
+                        '3. Una inversión se triplica cada 5 años. Si la inversión inicial es de $1000, ¿cuánto tiempo tardará en alcanzar $9000? Usa logaritmos.',
+                        '4. Un terremoto A tiene una magnitud de 7. Si un terremoto B es 10 veces menos intenso, ¿cuál es la magnitud de B en la escala de Richter?',
+                        '5. Se invierten $2000 en una cuenta que duplica su valor cada 8 años. ¿Cuánto tiempo tardará en alcanzar los $16000? Usa logaritmos.'
+                    ],
+                    3: [
+                        '1. El pH de una solución es de 7. ¿Cuál es su concentración de iones de hidrógeno <img src="https://latex.codecogs.com/png.image?[H%5E%2B]" alt="[H+]">?',
+                        '2. Una conversación normal tiene un nivel de intensidad de 60 dB. ¿Cuál es la intensidad de sonido <img src="https://latex.codecogs.com/png.image?I" alt="I"> en relación con la intensidad de referencia <img src="https://latex.codecogs.com/png.image?I_0" alt="I_0">?',
+                        '3. Un cultivo de bacterias crece exponencialmente. Si se sabe que la población inicial es de 200 y se duplica en 3 horas, ¿cuánto tiempo le tomará alcanzar 1600 bacterias?',
+                        '4. Un terremoto tiene una magnitud de 4. ¿Cuántas veces es más intenso que un terremoto de magnitud 2?',
+                        '5. Un capital de $1000 se invierte a una tasa de interés que lo quintuplica en 20 años. ¿En cuánto tiempo el capital será de $25000? Usa logaritmos.'
+                    ],
+                    4: [
+                        '1. Un pH de 3 es de una solución ácida. ¿Cuántas veces más ácida es que una solución con pH de 6?',
+                        '2. El sonido de un concierto de rock puede llegar a 120 dB. ¿Cuál es la intensidad de sonido <img src="https://latex.codecogs.com/png.image?I" alt="I"> en relación con la intensidad de referencia <img src="https://latex.codecogs.com/png.image?I_0" alt="I_0">?',
+                        '3. La población de un país crece exponencialmente. Si la población inicial es de 10 millones y se duplica en 50 años, ¿cuánto tiempo tardará en alcanzar 40 millones? Usa logaritmos.',
+                        '4. Un terremoto de magnitud 8 es 1000 veces más intenso que un terremoto de magnitud X. ¿Cuál es la magnitud de X?',
+                        '5. Un capital se invierte a una tasa de interés anual que lo triplica en 15 años. ¿En cuántos años será 9 veces el capital inicial? Usa logaritmos.'
+                    ],
+                    5: [
+                        '1. Si la concentración de iones de hidrógeno <img src="https://latex.codecogs.com/png.image?[H%5E%2B]" alt="[H+]"> de una sustancia es <img src="https://latex.codecogs.com/png.image?10%5E%7B-5%7D" alt="10^(-5)">, ¿cuál es su pH?',
+                        '2. Una sirena de emergencia tiene un nivel de intensidad de 80 dB. ¿Cuántas veces es más intensa su potencia <img src="https://latex.codecogs.com/png.image?I" alt="I"> que la intensidad de referencia <img src="https://latex.codecogs.com/png.image?I_0" alt="I_0">?',
+                        '3. Un capital de $800 se duplica cada 10 años. ¿Cuánto tiempo le tomará alcanzar los $3200? Usa logaritmos.',
+                        '4. Un terremoto de magnitud 6.5 es 100 veces más intenso que un terremoto de magnitud X. ¿Cuál es la magnitud de X?',
+                        '5. Un cultivo de bacterias se quintuplica en 4 horas. Si la población inicial es de 500, ¿cuánto tiempo le tomará alcanzar 125,000 bacterias? Usa logaritmos.'
+                    ]
+                }
+            }
+        };
+
+        // Función para mostrar los ejercicios
+        function displayExercises(group) {
+            const exercisesContainer = document.getElementById('exercises-container');
+            exercisesContainer.innerHTML = '<h1 style="text-align: center;">Ejercicios de Matemáticas</h1>';
+            
+            for (const theme in exercises) {
+                const themeDiv = document.createElement('div');
+                themeDiv.className = 'theme';
+                const themeTitle = document.createElement('h2');
+                themeTitle.innerHTML = theme;
+                themeDiv.appendChild(themeTitle);
+
+                for (const subTheme in exercises[theme]) {
+                    const subThemeDiv = document.createElement('div');
+                    subThemeDiv.className = 'sub-theme';
+                    const subThemeTitle = document.createElement('h3');
+                    subThemeTitle.innerHTML = subTheme;
+                    subThemeDiv.appendChild(subThemeTitle);
+                    
+                    const groupExercises = exercises[theme][subTheme];
+                    let exercisesToShow;
+
+                    if (group === 'admin') {
+                        for (const g in groupExercises) {
+                            const groupTitle = document.createElement('h4');
+                            groupTitle.textContent = `Grupo ${g}:`;
+                            subThemeDiv.appendChild(groupTitle);
+                            exercisesToShow = groupExercises[g];
+                            exercisesToShow.forEach(ex => {
+                                const exerciseDiv = document.createElement('div');
+                                exerciseDiv.className = 'exercise';
+                                exerciseDiv.innerHTML = ex;
+                                subThemeDiv.appendChild(exerciseDiv);
+                            });
+                        }
+                    } else {
+                        exercisesToShow = groupExercises[group];
+                        if (exercisesToShow) {
+                            exercisesToShow.forEach(ex => {
+                                const exerciseDiv = document.createElement('div');
+                                exerciseDiv.className = 'exercise';
+                                exerciseDiv.innerHTML = ex;
+                                subThemeDiv.appendChild(exerciseDiv);
+                            });
+                        }
+                    }
+                    themeDiv.appendChild(subThemeDiv);
+                }
+                exercisesContainer.appendChild(themeDiv);
+            }
+        }
+
+        // Manejo del formulario de inicio de sesión
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            if (users[username] === password) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('exercises-container').style.display = 'block';
+                const group = groups[password];
+                displayExercises(group);
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
